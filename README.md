@@ -132,6 +132,92 @@ awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre
 
 # Soal 2
 
+**Dikerjakan Oleh:
+Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)
+Mutiara Diva Jaladitha (5027241083)
+M. Faqih Ridho (5027241123)**
+
+## Deskripsi Soal 
+
+Membuat sdua shell script, login.sh dan register.sh, yang dimana database “Player” disimpan di /data/player.csv. Untuk register, parameter yang dipakai yaitu email, username, dan password. Untuk login, parameter yang dipakai yaitu email dan password. Email harus memiliki format yang benar dengan tanda @ dan titik, sementara password harus memiliki minimal 8 karakter, setidaknya satu huruf kecil, satu huruf besar, dan satu angka. Sistem login/register tidak bisa memakai email yang sama (email = unique), tetapi tidak ada pengecekan tambahan untuk username. Password perlu disimpan dalam bentuk yang tidak mudah diakses dan menggunakan algoritma hashing sha256sum yang memakai static salt (bebas). Program ini dijalankan dengan cara ./terminal.sh
+
+#### A. “First Step in a New World”
+
+```bash
+nano login.sh
+```
+- `nano login.sh`: Membuat script logindengan parameter email dan password.
+
+```bash
+nano register.sh
+```
+- `nano register.sh`: Membuat script register dengan parameter email. username, dan password.
+
+```bash
+mkdir data && cd data && touch player.csv
+```
+- `mkdir data`: Membuat folder bernama data
+- `cd data`: Masuk ke dalam folder data
+- `touch player.csv`: membuat file bernama player.csv
+
+#### B. “Radiant Genesis”
+
+```bash
+validate_email() {
+    local email="$1"
+    if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+```
+- `^[a-zA-Z0-9._%+-]+`: Karakter sebelum '@' (boleh huruf, angka, titik, underscore, dll).
+- `@[a-zA-Z0-9.-]+`: Karakter setelah '@' (harus domain yang valid).
+- `\.[a-zA-Z]{2,}$`: Ekstensi domain minimal 2 karakter (misal `.com`, `.id`, `.org`).
+
+```bash
+validate_password() {
+    local password="$1"
+    if [[ "$password" =~ [A-Z] ]] && \
+       [[ "$password" =~ [a-z] ]] && \
+       [[ "$password" =~ [0-9] ]] && \
+       [[ ${#password} -ge 8 ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+```
+- `validate_password()`: Fungsi ini memeriksa apakah password memenuhi kriteria berikut:
+✅ Minimal 8 karakter
+✅ Memiliki setidaknya 1 huruf besar
+✅ Memiliki setidaknya 1 huruf kecil
+✅ Memiliki setidaknya 1 angka
+
+#### C. “Unceasing Spirit”
+
+```bash
+if grep -q "^$email," "$DB_FILE"; then
+    echo "Email sudah terdaftar!"
+    exit 1
+fi
+```
+- `grep -q`: Mengecek apakah email sudah ada di file database.
+- `^$email,`: Regex yang memastikan hanya mencocokkan email pada awal baris (agar tidak tertukar dengan email yang mirip).
+
+#### D. “The Eternal Realm of Light”
+
+```bash
+DB_FILE="./data/player.csv"
+SALT="arc@eaS3cR3t"
+hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
+```
+- `DB_FILE`: Menentukan lokasi file database tempat data pengguna disimpan.
+- `SALT`: String tetap yang digunakan sebagai tambahan dalam hashing password untuk meningkatkan keamanan.
+- Menggabungkan password dengan `SALT` untuk memperkuat hashing.
+- Menggunakan `sha256sum` untuk menghasilkan hash.
+- `awk '{print $1}'` mengambil hanya nilai hash tanpa karakter tambahan.
 
 # Soal 3
 
@@ -317,12 +403,146 @@ Membuat sebuah script bernama pokemon_analysis.sh dengan fitur melihat summary d
 
 #### A. Melihat summary dari data
 
+```bash
+wget -q "https://drive.usercontent.google.com/u/0/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv
+```
+
+- Mengunduh file `pokemon_usage.csv` dari URL yang diberikan.
+- Opsi `-q` membuat wget berjalan tanpa output.
+- Opsi `-O` menentukan nama file yang akan disimpan.
+
+```bash
+if [ "$COMMAND" == "-i" ] || [ "$COMMAND" == "--info" ]; then
+    awk -F',' 'NR > 1 {
+        gsub("%", "", $2)
+
+        usage = $2 + 0
+        raw = $3 + 0
+
+        if (usage > max2) {
+            max2 = usage
+            name2 = $1
+        }
+        if (raw > max3) {
+            max3 = raw
+            name3 = $1
+        }
+    }
+    END {
+        print "Summary of", FILENAME
+        print "Highest Adjusted Usage:", name2, "with", max2 "%"
+        print "Highest Raw Usage:", name3, "with", max3 " uses"
+    }' "$FILE"
+```
+- Membaca file CSV menggunakan `awk`.
+- Menghapus tanda `%` dari kolom 2 (Adjusted Usage).
+- Menyimpan Pokémon dengan Adjusted Usage dan Raw Usage tertinggi.
+
+#### Output
+![Output Summary Info](./image_for_readme/output_info.png)
+
 #### B. Mengurutkan Pokemon berdasarkan data kolom
+
+```bash
+elif [ "$COMMAND" == "-s" ] || [ "$COMMAND" == "--sort" ]; then
+```
+- Mengecek apakah opsi sorting diberikan (`name`, `usage`, dll.).
+- Menggunakan `sort` dengan flag:
+  - `-t,` → Menentukan delimiter sebagai koma.
+  - `-k` → Menentukan kolom yang akan digunakan untuk sortir.
+  - `-n` → Sortir secara numerik.
+  - `-r` → Sortir secara menurun (descending).
+
+#### Output
+![Output Sort By Usage](./image_for_readme/outpu_sort_by_usage.png)
 
 #### C. Mencari nama Pokemon tertentu
 
+```bash
+elif [ "$COMMAND" == "-g" ] || [ "$COMMAND" == "--grep" ]; then
+```
+- Menggunakan `awk` untuk mencari Pokémon yang namanya sesuai dengan parameter yang diberikan.
+- Pencarian bersifat case-insensitive dengan `IGNORECASE=1`.
+
+#### Output
+![Output Find Pokemon by Name](./image_for_readme/output_grep.png)
+
 #### D. Mencari Pokemon berdasarkan filter nama type
+
+```bash
+elif [ "$COMMAND" == "-f" ] || [ "$COMMAND" == "--filter" ]; then
+```
+- Menggunakan `awk` untuk mencocokkan Pokémon dengan tipe tertentu.
+- Filter mencakup dua kolom tipe Pokemon (kolom 4 dan 5).
+
+#### Output
+![Output Find Pokemon by Type Name](./image_for_readme/output_filter.png)
 
 #### E. Error handling
 
+```bash
+else
+    echo "Error: Invalid command. Use -h or --help for instructions."
+    exit 1
+fi
+```
+Jika perintah tidak dikenal, maka akan menampilkan pesan error.
+
+#### Output
+![Output Error Handling](./image_for_readme/output_error_handling.png)
+
 #### F. Help screen yang menarik
+
+```bash
+show_help() {
+
+    echo "                                                                                                                     "
+    echo "                                              =-                                                #@%-.               "
+    echo "                                            :#++=                                                 +#:....          "
+    echo "                                          .+*::=*-                                                   .......       "
+    echo "           .-======:         :==*####+.  =##**=.   -====*#***+                                     .........:.     "
+    echo "       .=*+-:::::::=*+.   .%#=::.+#+::+*=+#*+==+*=#%*:::+*..=#    =%#+**=-..                ...............:+::    "
+    echo "     *#*:...........:=*.  .%##=..==...:+*=::==-.:+##=...-=..:*.   -%#=..:+##*+**=        =..........-%#-...-=::-   "
+    echo "     -@#+:.....:+#*-.:*- .:-%#+......-*#=.--.=:-*#%#-...::..:*+=*++*#+...-#*:..+=       ===:... .....--...===..:... "
+    echo "      .%###=...:+-++:-##===::+#:...:**=*=.:+-:==-=##-.......:#=-*-.:-++..:*=..-*           .........-**=..:=-..... "
+    echo "       .=*%#=...:*+:-#+:=#=:=:-#:...::=**-.......-**-.:+..::#-.+##*+:-+:.:-:.:*:        ............:::.......... "
+    echo "          +%#-...:-*#*:.-*##+.:#::**-:.:-*#*==+#%%#-..=#==*:#:.::-:.:++--....=+         ......:.................  "
+    echo "           #@*:..:*%%#:......:*+.:*#%%#+-:::+*: -%%*+=*%###:+#:...:-+=:==...-*.          ......................   "
+    echo "           .%@*:..=#%%#=::::=#%=:-*.  +#%%#+*-     -+#-%@@#=:=*##*#%+.:+=..:+-                .....:............   "
+    echo "            .@%+:.:*--#%%#**.%%#**=       *%%-           #%##%%#. *%%%%%=..=+                ...................   "
+    echo "             -@%=:-**                                                 +@#=-*:                  .**-..............  "
+    echo "              +@%%+.                                                   .*@@+  :.                  ...............  "
+    echo "                                                                                                   .............   "
+    echo "                                                                                                                     "
+    echo "Pokemon Analysis Tool"
+    echo "Usage: ./pokemon_analysis.sh <file_name> [options]"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help             Display this help message."
+    echo "  -i, --info             Display the highest adjusted and raw usage."
+    echo "  -s, --sort <method>    Sort the data by the specified column."
+    echo "    name                 Sort by Pokemon name."
+    echo "    usage                Sort by Adjusted Usage."
+    echo "    raw                  Sort by Raw Usage."
+    echo "    hp                   Sort by HP."
+    echo "    atk                  Sort by Attack."
+    echo "    def                  Sort by Defense."
+    echo "    spatk                Sort by Special Attack."
+    echo "    spdef                Sort by Special Defense."
+    echo "    speed                Sort by Speed."
+    echo "  -g, --grep <name>      Search for a specific Pokemon sorted by usage."
+    echo "  -f, --filter <type>    Filter by type of Pokemon sorted by usage."
+    echo ""
+}
+```
+- Fungsi `show_help()` digunakan untuk mencetak petunjuk penggunaan (help screen) saat pengguna menjalankan skrip dengan opsi `-h` atau `--help`.
+- ASCII Art berfungsi sebagai elemen visual agar help screen terlihat lebih menarik dan bertema unik
+- `echo "Usage: ./pokemon_analysis.sh <file_name> [options]"` menunjukkan format penggunaannya
+- `-h` atau `--help` ➔ Menampilkan help screen ini.
+- `-i` atau `--info` ➔ Menampilkan Pokémon dengan penggunaan tertinggi (adjusted dan raw).
+- `-s` atau `--sort` ➔ Mengurutkan data berdasarkan kolom tertentu (misalnya `hp`, `atk`, dll.).
+- `-g` atau `--grep` ➔ Mencari Pokémon tertentu.
+- `-f` atau `--filter` ➔ Menyaring data berdasarkan tipe Pokemon.
+
+#### Output
+![Output Help Screen](./image_for_readme/output_helpscreen.png)
