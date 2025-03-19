@@ -106,6 +106,10 @@ done
 - `date +"%Y-%m-%d %H:%M:%S"` → Format waktu lengkap dengan detik  
 - `sleep 1` → Update setiap 1 detik  
 
+##### Output
+
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Ouput%20Time.png?raw=true)
+
 #### D. Money - Membuat Cmatrix dengan simbol Mata Uang
 
 ```bash
