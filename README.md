@@ -21,7 +21,8 @@ cd poppo_siroyo.sh
 wget --content-disposition "https://drive.google.com/uc?export=download&id=1l8fsj5LZLwXBlHaqhfJVjz_T0p7EJjqV"
 ```
 Pertama saya membuat file directory. Lalu masuk kedalam directory.Lalu, mendownload file reading_data.csv.
-![tahap awal](image_for_readme/Mendownload File csv nomor 1.png)
+
+![tahap awal](image_for_readme/Mendownload%20File%20csv%20nomor%201.png)
 
 1.a Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
 
