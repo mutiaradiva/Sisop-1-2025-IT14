@@ -40,12 +40,18 @@ while true; do
     curl -s https://www.affirmations.dev/ | jq -r '.affirmation'
     sleep 1
 done
+```
 
-Penjelasan : 
-Mengambil data dari API affirmations.dev setiap detik
-Menggunakan jq untuk parsing JSON response
-Tampilan dibersihkan dengan clear saat awal eksekusi
+Penjelasan :
+clear - Membersihkan terminal sebelum menampilkan output
+while true - Membuat infinite loop
+curl -s - Mengambil data dari API secara silent (tanpa progress bar)
+jq -r '.affirmation' - Parsing JSON dan ekstrak nilai affirmation
+sleep 1 - Jeda 1 detik sebelum loop berikutnya
 
+> Note:
+> - Pastikan package jq sudah terinstall (sudo apt install jq)
+> - Jika API tidak tersedia, akan muncul error JSON parsing
 
 
 
