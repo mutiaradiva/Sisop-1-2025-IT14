@@ -19,5 +19,12 @@
 
 # Soal 3
 
+*** Dikerjakan Oleh Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)
+
+## Deskripsi Soal 
+
+Membuat sebuah script bertemakan setidaknya 5 dari 10 lagu dalam album tersebut. Sebagai Peserta kamu memutuskan untuk memilih Speak to Me, On the Run, Time, Money, dan Brain Damage. Saat program ini dijalankan, terminal harus dibersihkan terlebih dahulu agar tidak mengganggu tampilan dari fungsi fungsi yang kamu buat. Program ini dijalankan dengan cara ./dsotm.sh --play=”<Track>” 
+
+
 
 # Soal 4
