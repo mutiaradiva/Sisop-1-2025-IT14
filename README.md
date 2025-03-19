@@ -158,6 +158,10 @@ done
 - `Double loop` → Menggeser semua karakter ke bawah  
 - `sleep 0.05` → jeda sebelum menampilkan simbol lain setiap 0,05 detik
 
+##### Output
+
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Money.png?raw=true)
+
 #### E. Brain Damage - Task Manager
 
 ```bash
