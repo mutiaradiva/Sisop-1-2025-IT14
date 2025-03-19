@@ -53,7 +53,7 @@ done
 > - Jika API tidak tersedia, akan muncul error JSON parsing
 
 ##### Output 
-![Speak to me](image_for_readme/Output Speak to Me.png)
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Speak%20to%20Me.png?raw=true)
 
 #### B. On The Run - Progress Bar ( Loading )
 
