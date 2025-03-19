@@ -12,7 +12,14 @@
 - [Soal 4](#soal-4)
 
 # Soal 1
-
+**DIkerjakan Oleh M Faqih Ridho (5027241123)**
+1.a Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
+berikut commmand secara keseluruhan yang saya gunakan:
+```
+awk 'BEGIN {FS=","; Maks=0} { if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }
+ END { if (Maks > 0) {print "Pembaca dengan rating tertinggi:", nama, "-", JudulBuku, "-", Maks}
+else {print "Tidak ada data rating yang valid." }}' reading_data.csv
+```
 
 # Soal 2
 
