@@ -19,7 +19,7 @@
 
 # Soal 3
 
-*** Dikerjakan Oleh Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)
+**Dikerjakan Oleh Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)**
 
 ## Deskripsi Soal 
 
