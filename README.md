@@ -81,6 +81,8 @@ done
 - `printf "_%.0s"` → Membuat string filled dengan karakter `_`  
 - `\r` → Kembali ke awal baris untuk update progres  
 
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20On%20the%20Run.png?raw=true)
+
 #### C. Time - Waktu berjalan sesuai dengan keadaan saat ini
 
 ```bash
