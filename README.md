@@ -231,3 +231,21 @@ done
 
 
 # Soal 4
+
+**Dikerjakan Oleh Mutiara Diva Jaladitha (5027241083)**
+
+## Deskripsi Soal 
+
+Membuat sebuah script bernama pokemon_analysis.sh dengan fitur melihat summary dari data pokemon, mengurutkan pokemon berdasarkan data kolom, mencari nama pokemon tertentu, mencari pokemon berdasarkan filter nama type, error handling, dan help screen yang menarik. Program ini dijalankan dengan cara ./pokemon_analysis.sh -h atau ./pokemon analysis.sh --help.
+
+#### A. Melihat summary dari data
+
+#### B. Mengurutkan Pokemon berdasarkan data kolom
+
+#### C. Mencari nama Pokemon tertentu
+
+#### D. Mencari Pokemon berdasarkan filter nama type
+
+#### E. Error handling
+
+#### F. Help screen yang menarik
