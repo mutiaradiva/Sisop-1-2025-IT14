@@ -186,5 +186,9 @@ done
 - `--sort=-%mem` → Mengurutkan proses berdasarkan penggunaan memori tertinggi  
 - `tput cup` → Memposisikan kursor untuk refresh layar tanpa `clear` untuk menghindari flicker  
 
+##### Output 
+
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Brain%20Damage.png?raw=true)
+
 
 # Soal 4
