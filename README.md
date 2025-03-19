@@ -42,12 +42,11 @@ while true; do
 done
 ```
 
-Penjelasan :
-clear - Membersihkan terminal sebelum menampilkan output
-while true - Membuat infinite loop
-curl -s - Mengambil data dari API secara silent (tanpa progress bar)
-jq -r '.affirmation' - Parsing JSON dan ekstrak nilai affirmation
-sleep 1 - Jeda 1 detik sebelum loop berikutnya
+- `clear` → Membersihkan terminal sebelum menampilkan output  
+- `while true` → Membuat infinite loop  
+- `curl -s` → Mengambil data dari API secara silent (tanpa progress bar)  
+- `jq -r '.affirmation'` → Parsing JSON dan ekstrak nilai `"affirmation"`  
+- `sleep 1` → Jeda 1 detik sebelum loop berikutnya  
 
 > Note:
 > - Pastikan package jq sudah terinstall (sudo apt install jq)
