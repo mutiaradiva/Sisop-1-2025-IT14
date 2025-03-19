@@ -35,7 +35,7 @@ Membuat sebuah script bertemakan setidaknya 5 dari 10 lagu dalam album tersebut.
 
 Mengambil data dalam https://github.com/annthurium/affirmations untuk menampilkan word of affirmation setiap detik.
 
-'''bash
+```bash
 while true; do
     curl -s https://www.affirmations.dev/ | jq -r '.affirmation'
     sleep 1
