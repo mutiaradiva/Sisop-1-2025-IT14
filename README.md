@@ -52,6 +52,9 @@ done
 > - Pastikan package jq sudah terinstall (sudo apt install jq)
 > - Jika API tidak tersedia, akan muncul error JSON parsing
 
+##### Output 
+![Speak to me](image_for_readme/Output Speak to Me.png)
+
 #### B. On The Run - Progress Bar ( Loading )
 
 ```bash
@@ -109,7 +112,6 @@ cols=$(tput cols)
 lines=$(tput lines)
 declare -A matrix
 
-# Inisialisasi matrix
 for ((i=1; i<=lines; i++)); do
     for ((j=1; j<=cols; j++)); do
         matrix[$i,$j]=" "
@@ -122,14 +124,13 @@ while true; do
         (( RANDOM % 20 == 0 )) && matrix[1,$j]="${colors[RANDOM%5]}${symbols[RANDOM%9]}\e[0m"
     done
     
-    # Geser semua baris ke bawah
     for ((i=lines; i>1; i--)); do
         for ((j=1; j<=cols; j++)); do
             matrix[$i,$j]=${matrix[$((i-1)),$j]}
         done
     done
     
-    # Render
+
     clear
     for ((i=1; i<=lines; i++)); do
         line=""
