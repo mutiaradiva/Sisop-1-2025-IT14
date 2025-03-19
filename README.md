@@ -66,16 +66,16 @@ while [ $progress -lt 100 ]; do
     progress=$((progress + RANDOM%3 + 1))
     [ $progress -gt 100 ] && progress=100
     
-    filled=$(printf "▓%.0s" $(seq 1 $((progress*bar_length/100))))
+    filled=$(printf "_%.0s" $(seq 1 $((progress*bar_length/100))))
     printf "\r[%-${bar_length}s] %d%%" "$filled" "$progress"
 done
 ```
 
 
 - `tput cols` → Mendapatkan lebar terminal untuk progress bar responsif  
-- `awk ...` → Menghitung waktu `sleep` acak antara 0.1-1 detik  
+- `awk -v min=0.1 -v max=1 ` → Menghitung waktu `sleep` acak antara 0.1-1 detik  
 - `$RANDOM%3 +1` → Increment progress acak (1-3%) per iterasi  
-- `printf "_%.0s"` → Membuat string filled dengan karakter `_` atau `▓`  
+- `printf "_%.0s"` → Membuat string filled dengan karakter `_`  
 - `\r` → Kembali ke awal baris untuk update progres  
 
 #### C. Time - Waktu berjalan sesuai dengan keadaan saat ini
@@ -93,10 +93,10 @@ done
 ```
 
 - `tput civis` → Menyembunyikan kursor  
-- `trap ... EXIT` → Mengembalikan kursor saat program berhenti  
+- `trap 'tput cnorm; clear' EXIT` → Mengembalikan kursor saat program berhenti  
 - `tput cup 0 0` → Memindahkan kursor ke pojok kiri atas  
-- `date +"..."` → Format waktu lengkap dengan detik  
-- `sleep 1` → Update setiap detik  
+- `date +"%Y-%m-%d %H:%M:%S"` → Format waktu lengkap dengan detik  
+- `sleep 1` → Update setiap 1 detik  
 
 #### D. Money - Membuat Cmatrix dengan simbol Mata Uang
 
@@ -170,7 +170,7 @@ done
 - `free -m` → Menampilkan penggunaan memori dalam MB  
 - `ps -eo` → Menampilkan daftar proses dengan format khusus  
 - `--sort=-%mem` → Mengurutkan proses berdasarkan penggunaan memori tertinggi  
-- `tput cup` → Memposisikan kursor untuk refresh layar tanpa `clear` guna menghindari flicker  
+- `tput cup` → Memposisikan kursor untuk refresh layar tanpa `clear` untuk menghindari flicker  
 
 
 # Soal 4
