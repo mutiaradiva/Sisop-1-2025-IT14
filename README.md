@@ -27,4 +27,6 @@ Membuat sebuah script bertemakan setidaknya 5 dari 10 lagu dalam album tersebut.
 
 
 
+
+
 # Soal 4
