@@ -13,7 +13,8 @@
 
 # Soal 1
 **DIkerjakan Oleh M Faqih Ridho (5027241123)**
-## Deskripsi Spal
+
+## Deskripsi Soal
 1.Poppo dan siroyo memiliki tablet yang didalamnya terdapat file reading_data.csv. Kita disuruh untuk menelusuri file yang ada pada 
 ```
 mkdir poppo_siroyo.sh
@@ -24,15 +25,72 @@ Pertama saya membuat file directory. Lalu masuk kedalam directory.Lalu, mendownl
 
 ![tahap awal](image_for_readme/Mendownload%20File%20csv%20nomor%201.png)
 
-1.a Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
-
+#### 1. A
+1. A Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
 berikut commmand secara keseluruhan yang saya gunakan:
+```
+awk '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } } END { if (n > 0) print "Chris Hemsworth membaca", n, "buku."; else print "Chris Hemsworth tidak membaca buku."; }' reading_data.csv
+```
+
+### Cara Pengerjaan 
+" '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } }" adalah inisialisasi awal sebelum membaca input dibaca. Jumlah adalah semacam variabel yang akan bertambah 1 Jika apakah seluruh baris menggandung kata Chris Hemsworth , jika iya n akan bertambah dengan menampung angkanya. kenapa menggunakan ~ (regex) bukan == karena regex lebih fleksibel jika dengan huruf besar dan kecil walaupun saya mengakui itu kesalahan karena lebih bagus mengguakan == agar sesuai ketentuan.
+
+"END { if (n > 0) print "Chris Hemsworth membaca", n, "buku."; else print "Chris Hemsworth tidak membaca buku."; }'"
+setelah input sudah dibaca (END), maka berlaku ketentuan. Jika N > 0 (penambahan setiap bertemu nama Chris Hemsworth) maka mencetak "Chris Hemsworth membaca", n, "buku." dengan n adalah variabel yang menampung jumlah bukunya. jika tidak maka tercetak kalimat "Chris Hemsworth tidak membaca buku.".
+
+"reading_data.csv" adalah file yang di baca.
+
+### Kendala
+ 1.saya salah menuliskan nama pembacanya chris hemsworth padahal Chris Hemsworth
+ 2. Saya tidak membaca note dimana harus menggunakan if else
+
+### Solusi
+1. saya meneliti command nya sudah sesuai pada GitHub modul 1 maka saya mencoba melihat soal dan ternyata salah huruf kapital.
+2. Saya menata ulang lagi command nya agar mengandung if-else
+
+### Gambar 
+
+
+#### 1. B
+1. B Siroyo penasaran berapa waktu rata-rata membaca menggunakan perangkat tablet pada file reading_data.csv
+   
+Berikut command keseluruhan yang saya gunakan :
+```
+awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } }
+ END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
+ else{ print "Tidak ada data membaca dengan Tablet." }}' reading_data.csv
+```
+
+### Cara Pengerjaan
+" 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } } " command awal BEGIN digunakan untuk eksekusi sebelum file dibaca.FS/field separator adalah pemisah kolom dalam kasus ini menggunakan "," .  " if ($8 == "Tablet") { total+=$6; hitung++ }" Jika kolom 8 mengandung kata Tablet, maka variabel total yang menampung kolom 6 yang berisi durasi membaca akan terus bertambah. Lalu variabel hitung++ menambahkan jumlah baris agar dapat menghitung rata-ratanya.
+
+"END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
+ else{ print "Tidak ada data membaca dengan Tablet." }}'"  Setelah input sudah dibaca (END) , berlaku ketentuan. Jika hitung >0 maka cetak "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit" dimana total : hitung adalah menghitung rata-rata durasi membaca. Jika hitung  < 0 maka mencetak "Tidak ada data membaca dengan Tablet.".
+
+ "reading_data.csv" adalah file data yang dibaca
+
+ ### Kendala
+ 1.saya bingung apa yang membuat perintah menggunakan {} dan tidak , karena $8 =="Tablet" tidak menggunakan {} saya mencontohnya pada modul GitHub NR==2.
+2.Saya tidak membaca note terakhir
+
+### Solusi 
+1. saya menemukan pada website geeksforgeeks bahwa penyusunan awk adalah
+awk [options] 'pattern { action }' input-file(s). dimana patern adalah kondisi yang dicek setiap barisnya dan action merupakan eksekusi dengan syarat pattern terpenuhi
+2. Saya Menyesuaikan command agar menggunakan if-else
+
+### Gambar
+
+
+#### 1.C
+1.C Poppo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca (Rating) beserta nama (Name) dan judul bukunya (Book_Title) pada file reading_data.csv
+Berikut command secara keseluruhan yang saya gunakan :
 ```
 awk 'BEGIN {FS=","; Maks=0} { if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }
  END { if (Maks > 0) {print "Pembaca dengan rating tertinggi:", nama, "-", JudulBuku, "-", Maks}
 else {print "Tidak ada data rating yang valid." }}' reading_data.csv
 ```
-## Cara Pengerjaan
+### Cara Pengerjaan
+
 Saya menggunakan filter awk untuk mencari hal yang kita inginkan. "BEGIN {FS=","; Maks=0}" BEGIN adalah eksekusi yang dijalankan sebelum masuk ke file nya. FS/field separator adalah pemisah kolom dalam kasus ini menggunakan "," .Maks adalah semacam variabel yang di inisialisasi int karena kalau tidak akan secara default string.
 
 "{ if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }"  adalah filternya. NR >1 berarti pembacaan dimulai dari baris >1 karena baris pertama merupakan string. maks adalah variabel yang menampung setiap baris yang ada pada kolom 7. nama adalah variabel yang menampung baris kolom 2 dan JudulBuku adalah variabel yang menampung baris pada kolom 3. Semua variabel tadi akan berganti nilai ke baris selanjutnya jika "($7 > Maks)" ada rating pada baris selanjutnya yang melebihi pada baris sebelumnya. 
@@ -42,16 +100,35 @@ else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya
 
 "reading_data.csv" adalah file yang menjadi acuannya
 
-## Kendala
-1.saya salah menuliskan nama pembacanya chris hemsworth padahal Chris Hemsworth
-2.Saya tidak membaca note dimana harus menggunakan if else
+### Kendala
+1.saya salah penulisan pemanggian variable ternyata awk itu case sensitive
+2. Saya awalnya tidak menyimpan kolom 2 dan 3 dalam variable sehingga tidak tercetak sebagai syarat rating tertinggi malah mencetak baris terakhir makanya saya menambahkan variabel
+3. Saya awalnya tidak menggunakan FS sebagai pemisah kolom jadi outputnya tidak jelas
+4. perbandingan kolom ke 7 yaitu rating awalnya terhambat karena baris pertama adalah string sehingga baris lain tidak dieksekusi jadi saya memutuskan untuk melewati baris pertama.
 
-## Solusi 
-1. saya meneliti command nya sudah sesuai pada GitHub modul 1 maka saya mencoba melihat soal dan ternyata salah huruf kapital.
-2. Saya mengulang dengan menggunakan if-else
+### Solusi 
+1. 
+   
+### Gambar
 
-## Gambar
 
+#### 1. D
+1.D Siroyo ingin mengetahui berapa buku untuk Genre buku paling populer di Asia setelah 31 Desember 2023 pada file reading_data.csv
+```
+awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ } END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0; for (n in Ngitung_Genre) { if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' reading_data.csv
+```
+### Cara Pengerjaan
+
+
+
+
+### Kendala
+1. pada penulisan saya karena menggunakan 1 line itu ada yang terpenggal variable nya an tidak dapat dieksekusi
+
+### Solusi 
+1. saya membentuk Jarak dengan spasi sehingga tidak terpenggal dan dapat dieksekusi
+
+### Gambar
 
 # Soal 2
 
