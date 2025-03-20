@@ -309,16 +309,16 @@ echo "$LOG_ENTRY"
 5. `mkdir -p "$LOG_DIR"`  Membuat folder logs jika folder tersebut belum ada. Opsi -p memastikan pembuatan folder induk bila diperlukan.
    
 6. `fungsi get_cpu_usage()` 
--Membaca Data CPU:Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
--Mengonversi ke Array:Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
--Menghitung Total Waktu CPU:Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
--Mengambil Waktu Idle:Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
--Menghitung Persentase Penggunaan:Jika terdapat nilai sebelumnya (PREV_TOTAL dan PREV_IDLE), skrip menghitung selisih total waktu dan selisih waktu idle.
+- Membaca Data CPU:Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
+- Mengonversi ke Array:Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
+- Menghitung Total Waktu CPU:Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
+- Mengambil Waktu Idle:Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
+- Menghitung Persentase Penggunaan:Jika terdapat nilai sebelumnya (PREV_TOTAL dan PREV_IDLE), skrip menghitung selisih total waktu dan selisih waktu idle.
 
 7. `Fungsi get_cpu_model`
--Fungsi ini mencari baris pertama yang mengandung kata "model name" di file /proc/cpuinfo.
--Menggunakan awk, skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
--Hasilnya ditampilkan dengan echo
+- Fungsi ini mencari baris pertama yang mengandung kata "model name" di file /proc/cpuinfo.
+- Menggunakan awk, skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
+- Hasilnya ditampilkan dengan echo
 
 8. Sisanya sesuai komentar yang ada pada pemrograman.
 
