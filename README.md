@@ -309,15 +309,15 @@ echo "$LOG_ENTRY"
 5. `mkdir -p "$LOG_DIR"`  Membuat folder logs jika folder tersebut belum ada. Opsi -p memastikan pembuatan folder induk bila diperlukan.
    
 6. `fungsi get_cpu_usage()` 
-- Membaca Data CPU:Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
-- Mengonversi ke Array:Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
-- Menghitung Total Waktu CPU:Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
-- Mengambil Waktu Idle:Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
+- Membaca Data CPU: Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
+- Mengonversi ke Array: Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
+- Menghitung Total Waktu CPU: Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
+- Mengambil Waktu Idle: Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
 - Menghitung Persentase Penggunaan:Jika terdapat nilai sebelumnya (PREV_TOTAL dan PREV_IDLE), skrip menghitung selisih total waktu dan selisih waktu idle.
 
 7. `Fungsi get_cpu_model`
 - Fungsi ini mencari baris pertama yang mengandung kata "model name" di file /proc/cpuinfo.
-- Menggunakan awk, skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
+- Menggunakan `awk` , skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
 - Hasilnya ditampilkan dengan echo
 
 8. Sisanya sesuai komentar yang ada pada pemrograman.
@@ -386,20 +386,20 @@ echo "$LOG_ENTRY"
 4. `mkdir -p "$LOG_DIR"`  Membuat folder logs jika belum ada, memastikan bahwa lokasi untuk menyimpan log sudah tersedia.
 
 5. `Function get_ram_usage()`
-- Mengambil Informasi RAM:Fungsi ini mengambil dua baris penting dari file /proc/meminfo:
+- Mengambil Informasi RAM: Fungsi ini mengambil dua baris penting dari file /proc/meminfo:
 MemTotal untuk total memori.MemAvailable untuk memori yang tersedia saat ini.
-- Pemrosesan Data:Menggunakan grep dan awk untuk mengekstrak nilai memori (dalam satuan KB).
+- Pemrosesan Data: Menggunakan grep dan awk untuk mengekstrak nilai memori (dalam satuan KB).
 Nilai-nilai tersebut dikonversi ke MB dengan membagi angka dengan 1024.
 Menghitung memori yang telah terpakai dengan mengurangi memori yang tersedia dari total memori.
-- Menghitung Persentase:Persentase penggunaan RAM dihitung menggunakan kalkulasi di bc dengan skala dua angka di belakang koma untuk presisi.
+- Menghitung Persentase: Persentase penggunaan RAM dihitung menggunakan kalkulasi di bc dengan skala dua angka di belakang koma untuk presisi.
 - Output:
 Fungsi mengeluarkan (echo) nilai persentase penggunaan RAM.
 
 6. `Function get_fragment_count()` 
 - Penggunaan vmstat -s:
-Fungsi ini menggunakan perintah vmstat -s untuk menampilkan statistik memori dalam sistem.
+Fungsi ini menggunakan perintah `vmstat -s` untuk menampilkan statistik memori dalam sistem.
 - Mencari Baris Fragmentasi:
-Dengan grep, mencari baris yang mengandung "fragmented memory" dan mengambil nilai numeriknya dengan awk.
+Dengan `grep` , mencari baris yang mengandung "fragmented memory" dan mengambil nilai numeriknya dengan `awk`.
 
 > Note:
 > - Bagian fragmentasi ini bersifat contoh (placeholder) dan dapat disesuaikan atau dikembangkan lebih lanjut sesuai kebutuhan monitoring fragmentasi di sistem yang digunakan.
