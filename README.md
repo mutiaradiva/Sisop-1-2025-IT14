@@ -15,7 +15,7 @@
 **DIkerjakan Oleh M Faqih Ridho (5027241123)**
 
 ## Deskripsi Soal
-1.Poppo dan siroyo memiliki tablet yang didalamnya terdapat file reading_data.csv. Kita disuruh untuk menelusuri file yang ada pada 
+1.Poppo dan siroyo memiliki tablet yang didalamnya terdapat file reading_data.csv. Kita disuruh untuk menelusuri file yang ada pada file tersebut dengan kriteria-kriteria tertentu
 ```
 mkdir poppo_siroyo.sh
 cd poppo_siroyo.sh
@@ -232,6 +232,167 @@ hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
 - Menggabungkan password dengan `SALT` untuk memperkuat hashing.
 - Menggunakan `sha256sum` untuk menghasilkan hash.
 - `awk '{print $1}'` mengambil hanya nilai hash tanpa karakter tambahan.
+
+#### E “The Brutality of Glass”
+```
+#!/bin/bash
+btop
+
+# Path ke folder logs yang berada di luar direktori skrip
+LOG_DIR="../logs"
+LOG_FILE="$LOG_DIR/core.log"
+
+# Buat folder logs jika belum ada
+mkdir -p "$LOG_DIR"
+
+# Fungsi untuk mendapatkan penggunaan CPU
+get_cpu_usage() {
+    # Baca stat CPU dari /proc/stat
+    CPU_STAT=$(grep '^cpu ' /proc/stat)
+    CPU_STAT_ARRAY=($CPU_STAT)
+
+    # Hitung total waktu CPU
+    TOTAL=0
+    for value in "${CPU_STAT_ARRAY[@]:1:8}"; do
+        TOTAL=$((TOTAL + value))
+    done
+    IDLE=${CPU_STAT_ARRAY[4]}
+
+    # Hitung perubahan dan persentase penggunaan CPU
+    if [[ -n "$PREV_TOTAL" && -n "$PREV_IDLE" ]]; then
+        DIFF_TOTAL=$((TOTAL - PREV_TOTAL))
+        DIFF_IDLE=$((IDLE - PREV_IDLE))
+        DIFF_USAGE=$(( (100 * (DIFF_TOTAL - DIFF_IDLE)) / DIFF_TOTAL ))
+    else
+        DIFF_USAGE=0
+    fi
+
+    # Simpan nilai saat ini untuk penggunaan berikutnya
+    PREV_TOTAL=$TOTAL
+    PREV_IDLE=$IDLE
+
+    echo "$DIFF_USAGE"
+}
+
+# Fungsi untuk mendapatkan model CPU
+get_cpu_model() {
+    CPU_MODEL=$(grep -m 1 "model name" /proc/cpuinfo | awk -F ': ' '{print $2}')
+    echo "$CPU_MODEL"
+}
+
+# Ambil informasi CPU
+CPU_USAGE=$(get_cpu_usage)
+CPU_MODEL=$(get_cpu_model)
+
+# Format waktu untuk log
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Format output log
+LOG_ENTRY="[$TIMESTAMP] - Core Usage [$CPU_USAGE%] - Terminal Model [$CPU_MODEL]"
+
+# Simpan log
+echo "$LOG_ENTRY" >> "$LOG_FILE"
+
+# Tampilkan hasil di terminal
+echo "$LOG_ENTRY"
+
+```
+#### penjelasan
+1.#!/bin/bash: Baris ini menandakan bahwa skrip akan dijalankan menggunakan shell Bash.
+2. btop: Perintah ini menjalankan aplikasi btop, sebuah tool monitoring sistem berbasis teks yang menampilkan informasi penggunaan sumber daya secara visual.
+3.LOG_DIR="../logs": Mendefinisikan path folder logs yang terletak satu tingkat di atas direktori skrip.
+4.LOG_FILE="$LOG_DIR/core.log": Mendefinisikan file log yang akan digunakan untuk menyimpan data monitoring.
+5. mkdir -p "$LOG_DIR": Membuat folder logs jika folder tersebut belum ada. Opsi -p memastikan pembuatan folder induk bila diperlukan.
+6. fungsi get_cpu_usage() 
+-Membaca Data CPU:Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
+-Mengonversi ke Array:Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
+-Menghitung Total Waktu CPU:Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
+-Mengambil Waktu Idle:Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
+-Menghitung Persentase Penggunaan:Jika terdapat nilai sebelumnya (PREV_TOTAL dan PREV_IDLE), skrip menghitung selisih total waktu dan selisih waktu idle.
+7. Fungsi get_cpu_model
+-Fungsi ini mencari baris pertama yang mengandung kata "model name" di file /proc/cpuinfo.
+-Menggunakan awk, skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
+-Hasilnya ditampilkan dengan echo
+8. Sisanya sesuai komentar yang ada pada pemrograman.
+
+#### F. “In Grief and Great Delight”
+```
+#!/bin/bash
+bpytop
+
+# Path ke folder logs yang berada di luar direktori skrip
+LOG_DIR="../logs"
+LOG_FILE="$LOG_DIR/fragment.log"
+
+# Buat folder logs jika belum ada
+mkdir -p "$LOG_DIR"
+
+# Fungsi untuk mendapatkan penggunaan RAM
+get_ram_usage() {
+    # Baca informasi RAM dari /proc/meminfo
+    RAM_INFO=$(grep -E 'MemTotal|MemAvailable' /proc/meminfo)
+    TOTAL_RAM=$(echo "$RAM_INFO" | grep 'MemTotal' | awk '{print $2}')
+    AVAILABLE_RAM=$(echo "$RAM_INFO" | grep 'MemAvailable' | awk '{print $2}')
+
+    # Konversi dari KB ke MB
+    TOTAL_RAM=$((TOTAL_RAM / 1024))
+    AVAILABLE_RAM=$((AVAILABLE_RAM / 1024))
+    USED_RAM=$((TOTAL_RAM - AVAILABLE_RAM))
+
+    # Hitung persentase penggunaan RAM
+    RAM_USAGE_PERCENT=$(echo "scale=2; ($USED_RAM / $TOTAL_RAM) * 100" | bc)
+
+    echo "$RAM_USAGE_PERCENT"
+}
+
+# Fungsi untuk mendapatkan fragmentasi RAM
+get_fragment_count() {
+    # Contoh: Hitung fragmentasi RAM (ini hanya contoh, Anda bisa menyesuaikan dengan kebutuhan)
+    FRAGMENT_COUNT=$(vmstat -s | grep "fragmented memory" | awk '{print $1}')
+    echo "$FRAGMENT_COUNT"
+}
+
+# Ambil informasi RAM
+RAM_USAGE=$(get_ram_usage)
+FRAGMENT_COUNT=$(get_fragment_count)
+
+# Format waktu untuk log
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Format output log
+LOG_ENTRY="[$TIMESTAMP] - Fragment Usage [$RAM_USAGE%] - Fragment Count [$FRAGMENT_COUNT MB] - Details [Total: $TOTAL_RAM MB, Available: $AVAILABLE_RAM MB]"
+
+# Simpan log
+echo "$LOG_ENTRY" >> "$LOG_FILE"
+
+# Tampilkan hasil di terminal
+echo "$LOG_ENTRY"
+
+```
+#### Penjelasan
+1.#!/bin/bash: Menentukan bahwa skrip akan dijalankan menggunakan shell Bash.
+2.bpytop: Menjalankan aplikasi bpytop yang menampilkan monitoring sistem secara visual, mirip dengan btop pada skrip sebelumnya.
+3.Pengaturan Lokasi Log:Menetapkan path folder log (../logs) dan file log (fragment.log) di dalam folder tersebut.
+4.mkdir -p "$LOG_DIR": Membuat folder logs jika belum ada, memastikan bahwa lokasi untuk menyimpan log sudah tersedia.
+5. Function get_ram_usage()
+-Mengambil Informasi RAM:Fungsi ini mengambil dua baris penting dari file /proc/meminfo:
+MemTotal untuk total memori.MemAvailable untuk memori yang tersedia saat ini.
+-Pemrosesan Data:Menggunakan grep dan awk untuk mengekstrak nilai memori (dalam satuan KB).
+Nilai-nilai tersebut dikonversi ke MB dengan membagi angka dengan 1024.
+Menghitung memori yang telah terpakai dengan mengurangi memori yang tersedia dari total memori.
+-Menghitung Persentase:Persentase penggunaan RAM dihitung menggunakan kalkulasi di bc dengan skala dua angka di belakang koma untuk presisi.
+-Output:
+Fungsi mengeluarkan (echo) nilai persentase penggunaan RAM.
+6. function get_fragment_count() 
+-Penggunaan vmstat -s:
+Fungsi ini menggunakan perintah vmstat -s untuk menampilkan statistik memori dalam sistem.
+-Mencari Baris Fragmentasi:
+Dengan grep, mencari baris yang mengandung "fragmented memory" dan mengambil nilai numeriknya dengan awk.
+-Catatan:
+Bagian fragmentasi ini bersifat contoh (placeholder) dan dapat disesuaikan atau dikembangkan lebih lanjut sesuai kebutuhan monitoring fragmentasi di sistem yang digunakan.
+-Output:
+Nilai fragmentasi yang diperoleh kemudian dikembalikan melalui echo.
+7. Sisanya sesuai komentar pemrograman.
 
 # Soal 3
 
