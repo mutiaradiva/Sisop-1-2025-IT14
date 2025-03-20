@@ -736,7 +736,7 @@ bar_length=70
 - Menggunakan `tput cols` → untuk menentukan panjang progress bar.
 - `bar_length=$((term_width - 10))` → berfungsi untuk menentukan panjang maksimum dari progress bar dengan mengurangi 10 karakter dari lebar terminal agar tidak terlalu menempel dengan sebelah ujung terminal 
 
-
+![image_alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20On%20The%20Run%20Revisi.png?raw=true)
 
 #### C. Time - Waktu berjalan sesuai dengan keadaan saat ini
 
