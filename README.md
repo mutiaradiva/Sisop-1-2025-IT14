@@ -723,7 +723,7 @@ done
 
 ![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20On%20the%20Run.png?raw=true)
 
-## REVISI No 3 (On the Run)
+## Revisi No 3 (On the Run)
 
 ##### Kesalahan : Lebar loading tidak sesuai terminal
 ```bash
