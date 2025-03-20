@@ -147,9 +147,9 @@ Jika sudah ditemukan Jumlah_Genre_Terbanyak >0 maka mencetak "Genre paling popul
 # Soal 2
 
 **Dikerjakan Oleh:
-Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)
-Mutiara Diva Jaladitha (5027241083)
-M. Faqih Ridho (5027241123)**
+- Muhammad Fatihul Qolbi Ash Shiddiqi (5027241023)
+- Mutiara Diva Jaladitha (5027241083)
+- M. Faqih Ridho (5027241123)**
 
 ## Deskripsi Soal 
 
