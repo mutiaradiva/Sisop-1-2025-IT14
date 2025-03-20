@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PLAYER_DB="data/player.csv"
-SALT="static_salt"
+SALT="arc@eaS3cR3t"
 
 # Fungsi untuk hashing password
 hash_password() {
@@ -19,7 +19,8 @@ echo ""
 hashed_password=$(hash_password "$password")
 
 # Cek apakah email dan password cocok dalam database
-if grep -q "^$email,$password" "$PLAYER_DB"; then
+check=$(awk -F, -v email="$email" -v hash="$hashed_password" '$1==email && $3==hash {print $1}' "$PLAYER_DB")
+if [[ "$check" == "$email" ]]; then
     echo "Login berhasil! Selamat datang, Player!"
 else
     echo "Login gagal! Periksa kembali email dan password Anda."
