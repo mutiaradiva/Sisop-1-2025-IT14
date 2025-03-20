@@ -298,24 +298,24 @@ echo "$LOG_ENTRY"
 
 ```
 #### penjelasan
-1.#!/bin/bash: Baris ini menandakan bahwa skrip akan dijalankan menggunakan shell Bash.
+1. `#!/bin/bash` Baris ini menandakan bahwa skrip akan dijalankan menggunakan shell Bash.
 
-2. btop: Perintah ini menjalankan aplikasi btop, sebuah tool monitoring sistem berbasis teks yang menampilkan informasi penggunaan sumber daya secara visual.
+2. `btop` Perintah ini menjalankan aplikasi btop, sebuah tool monitoring sistem berbasis teks yang menampilkan informasi penggunaan sumber daya secara visual.
    
-3.LOG_DIR="../logs": Mendefinisikan path folder logs yang terletak satu tingkat di atas direktori skrip.
+3. `LOG_DIR="../logs"`  Mendefinisikan path folder logs yang terletak satu tingkat di atas direktori skrip.
 
-4.LOG_FILE="$LOG_DIR/core.log": Mendefinisikan file log yang akan digunakan untuk menyimpan data monitoring.
+4. `LOG_FILE="$LOG_DIR/core.log"` Mendefinisikan file log yang akan digunakan untuk menyimpan data monitoring.
 
-5. mkdir -p "$LOG_DIR": Membuat folder logs jika folder tersebut belum ada. Opsi -p memastikan pembuatan folder induk bila diperlukan.
+5. `mkdir -p "$LOG_DIR"`  Membuat folder logs jika folder tersebut belum ada. Opsi -p memastikan pembuatan folder induk bila diperlukan.
    
-6. fungsi get_cpu_usage() 
+6. `fungsi get_cpu_usage()` 
 -Membaca Data CPU:Mengambil baris yang dimulai dengan cpu dari file /proc/stat yang berisi statistik penggunaan CPU.
 -Mengonversi ke Array:Data tersebut dipecah menjadi array (CPU_STAT_ARRAY) sehingga setiap nilai bisa diakses secara individual.
 -Menghitung Total Waktu CPU:Dengan menggunakan perulangan, skrip menjumlahkan delapan nilai pertama (setelah kata cpu) yang menunjukkan berbagai waktu kerja CPU, sehingga didapat total waktu.
 -Mengambil Waktu Idle:Nilai idle diambil dari elemen ke-5 dalam array (indeks 4), karena itulah posisi waktu idle dalam file /proc/stat.
 -Menghitung Persentase Penggunaan:Jika terdapat nilai sebelumnya (PREV_TOTAL dan PREV_IDLE), skrip menghitung selisih total waktu dan selisih waktu idle.
 
-7. Fungsi get_cpu_model
+7. `Fungsi get_cpu_model`
 -Fungsi ini mencari baris pertama yang mengandung kata "model name" di file /proc/cpuinfo.
 -Menggunakan awk, skrip memisahkan baris tersebut berdasarkan delimiter : dan mengambil bagian kedua, yaitu nama model CPU.
 -Hasilnya ditampilkan dengan echo
@@ -377,15 +377,15 @@ echo "$LOG_ENTRY"
 ```
 
 #### Penjelasan
-1.#!/bin/bash: Menentukan bahwa skrip akan dijalankan menggunakan shell Bash.
+1. `#!/bin/bash` Menentukan bahwa skrip akan dijalankan menggunakan shell Bash.
 
-2.bpytop: Menjalankan aplikasi bpytop yang menampilkan monitoring sistem secara visual, mirip dengan btop pada skrip sebelumnya.
+2. `bpytop` Menjalankan aplikasi bpytop yang menampilkan monitoring sistem secara visual, mirip dengan btop pada skrip sebelumnya.
 
-3.Pengaturan Lokasi Log:Menetapkan path folder log (../logs) dan file log (fragment.log) di dalam folder tersebut.
+3. Pengaturan Lokasi Log Menetapkan path folder log (../logs) dan file log (fragment.log) di dalam folder tersebut.
 
-4.mkdir -p "$LOG_DIR": Membuat folder logs jika belum ada, memastikan bahwa lokasi untuk menyimpan log sudah tersedia.
+4. `mkdir -p "$LOG_DIR"`  Membuat folder logs jika belum ada, memastikan bahwa lokasi untuk menyimpan log sudah tersedia.
 
-5. Function get_ram_usage()
+5. `Function get_ram_usage()`
 -Mengambil Informasi RAM:Fungsi ini mengambil dua baris penting dari file /proc/meminfo:
 MemTotal untuk total memori.MemAvailable untuk memori yang tersedia saat ini.
 -Pemrosesan Data:Menggunakan grep dan awk untuk mengekstrak nilai memori (dalam satuan KB).
@@ -395,7 +395,7 @@ Menghitung memori yang telah terpakai dengan mengurangi memori yang tersedia dar
 -Output:
 Fungsi mengeluarkan (echo) nilai persentase penggunaan RAM.
 
-6. function get_fragment_count() 
+6. `Function get_fragment_count()` 
 -Penggunaan vmstat -s:
 Fungsi ini menggunakan perintah vmstat -s untuk menampilkan statistik memori dalam sistem.
 -Mencari Baris Fragmentasi:
@@ -527,22 +527,21 @@ done
 
 ```
 #### Penjelasan
-1. Display_Banner () menampilkan animasi menu utama manager.sh agar lebih menarik
-   
-2. Function remove_last_entry()
--Input Parameter:Fungsi menerima satu parameter, yaitu string pencarian (search_term), yang akan digunakan untuk menemukan entri yang relevan di crontab.
--Mengambil Isi Crontab:
+1. `Display_Banner ()` →  menampilkan animasi menu utama manager.sh agar lebih menarik
+2. `Function remove_last_entry()` 
+- Input Parameter:Fungsi menerima satu parameter, yaitu string pencarian (search_term), yang akan digunakan untuk menemukan entri yang relevan di crontab.
+- Mengambil Isi Crontab:
 Menggunakan crontab -l, fungsi mengambil daftar entri yang ada di crontab. Jika crontab kosong, fungsi akan menampilkan pesan "Crontab kosong."
--Mencari Entri yang Sesuai:
+- Mencari Entri yang Sesuai:
 Dengan perintah grep, fungsi mencari entri-entri yang mengandung search_term dari daftar crontab.
 Jika tidak ditemukan entri yang sesuai, maka akan menampilkan pesan bahwa tidak ada entri yang cocok.
 Menghapus Entri Terakhir:
 Jika ada entri yang cocok, fungsi mengambil entri terakhir dari hasil pencarian menggunakan tail -n 1 dan menghapusnya dari keseluruhan isi crontab.
 Sisanya kemudian disimpan kembali ke crontab dengan perintah crontab -.
--Feedback kepada Pengguna:
+- Feedback kepada Pengguna:
 Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_term telah dihapus.
 
-3. lalu, user dapat memilih menu di display banner
+3. Lalu, user dapat memilih menu di display banner
 
 #### H “The Disfigured Flow of Time”
 Gambar core.log
@@ -636,11 +635,11 @@ done
 
 ```
 #### Penjelasan
-1. display_banner dipanggil untuk membersihkan layar dan menampilkan tampilan grafis (banner) yang menarik.
+1. `display_banner` dipanggil untuk membersihkan layar dan menampilkan tampilan grafis (banner) yang menarik.
 
-2.display_main_menu kemudian menampilkan daftar opsi yang tersedia, misalnya register akun baru, login, mengakses Crontab Manager, dan keluar dari terminal.
+2. `display_main_menu` kemudian menampilkan daftar opsi yang tersedia, misalnya register akun baru, login, mengakses Crontab Manager, dan keluar dari terminal.
 
-3 Main loop :
+3. Main loop :
 
 Perulangan tak terbatas
 (while true; do ... done):
@@ -648,11 +647,11 @@ Perulangan tak terbatas
 ```
 read -p "\nEnter option [1-4]: " choice
 ```
--read: Perintah ini digunakan untuk membaca input dari pengguna.
+- `read` Perintah ini digunakan untuk membaca input dari pengguna.
 
--  -p "\nEnter option [1-4]: ": Opsi -p memungkinkan kita menampilkan pesan prompt kepada pengguna. Di sini, pesan tersebut mencetak baris baru (\n) diikuti oleh teks "Enter option [1-4]: ". Pesan ini memberi tahu pengguna untuk memasukkan pilihan antara angka 1 sampai 4.
+-  `-p "\nEnter option [1-4]: ` : Opsi -p memungkinkan kita menampilkan pesan prompt kepada pengguna. D
   
--choice: Nilai yang dimasukkan oleh pengguna akan disimpan dalam variabel bernama choice sehingga bisa digunakan untuk pengambilan keputusan (misalnya dengan case) di bagian skrip selanjutnya.
+- `choice` Nilai yang dimasukkan oleh pengguna akan disimpan dalam variabel bernama choice sehingga bisa digunakan untuk pengambilan keputusan (misalnya dengan case) di bagian skrip selanjutnya.
 
 # Soal 3
 
