@@ -545,6 +545,11 @@ Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_
 3. lalu, user dapat memilih menu di display banner
 
 #### H “The Disfigured Flow of Time”
+Gambar core.log
+![Core-log](image_for_readme/Nomor%202%20H%20core.log.png)
+
+Gambar fragment.log
+![Fragment-log](image_for_readme/Nomor%202%20H%20fragment.log.png)
 
 
 #### I “Irruption of New Color”
