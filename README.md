@@ -107,7 +107,10 @@ else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya
 4. perbandingan kolom ke 7 yaitu rating awalnya terhambat karena baris pertama adalah string sehingga baris lain tidak dieksekusi jadi saya memutuskan untuk melewati baris pertama.
 
 ### Solusi 
-1. 
+1.	Saya lebih teliti lago
+2.	Saya tambahkan variable yang menampung kolom 2 dan 3
+3.	Saya menambahkannya
+4.	Saya melewati baris pertama
    
 ### Gambar
 
@@ -118,8 +121,14 @@ else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya
 awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ } END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0; for (n in Ngitung_Genre) { if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' reading_data.csv
 ```
 ### Cara Pengerjaan
+“'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ }”  diawali dengan BEGIN yaitu eksekusi sebelum input file dibaca. Syarat pertama,NR /Number Record  > 1 artinya baris pertama dilewati karena mengandung string. Syarat kedua yaitu  “$5 > "2023-12-31" “ dimana Kolom 5 harus lebih dari ketentuan waktu 31 desember 2023. Syarat Ketiga yaitu “ $9 ~ /Asia/” dimana kolom 9 harus mengandung kata Asia. Perlu diketahui bahwa penggunaan Asia agar yang mengandung kata tidak hanya Asia bisa termasuk seperti Asia Tenggara. Ketiga syarat akan menambah angka variable Ngitung_Genre pada kolom 4.
 
+“END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0;” END sebagai eksekusi setelah input dibaca. Jenis_Genre adalah variable dengan tipe data string dan Jumlah_Genre_Terbanyak adalah variabel dengan int.
 
+“for (n in Ngitung_Genre) {if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } “ Perulangan ditampung pada variable n yang mengambil nilai key dari Ngitung_Genre. Lalu dibandingkan apakah Jumlah Ngitung_Genre[n] > Jumlah_Genre_terbanyak yang awal di inisialisasi dengan 0. Jika iya, maka Jenis_Genre yang menampung string akan menjadi string/nama genre dari Ngitun_genre Dan Jumlah_Genre_Terbanyak yang menampung int akan mengambil angkanya Ngitung Genre. Iterasi selanjutnya akan membandingkan Genre yang paling banyak muncul
+
+“ if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' “
+Jika sudah ditemukan Jumlah_Genre_Terbanyak >0 maka mencetak "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" dengan Jenis_Genre dan Jumlah_Genre_Terbanyak dipanggil dari variabel. jika <0 ,maka mencetak "Tidak ada Genre favorit".
 
 
 ### Kendala
@@ -129,6 +138,7 @@ awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre
 1. saya membentuk Jarak dengan spasi sehingga tidak terpenggal dan dapat dieksekusi
 
 ### Gambar
+
 
 # Soal 2
 
