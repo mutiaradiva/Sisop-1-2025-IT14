@@ -49,7 +49,8 @@ setelah input sudah dibaca (END), maka berlaku ketentuan. Jika N > 0 (penambahan
 2. Saya menata ulang lagi command nya agar mengandung if-else
 
 ### Gambar 
-
+![Sebelum If-else](image_for_readme/Nomor%201%20A%20%20kendala%20dan%20hasil.png)
+![Setelah If-else](image_for_readme/Nomor%201%20A%20Pakai%20IF-Else.png)
 
 #### 1. B
 1. B Siroyo penasaran berapa waktu rata-rata membaca menggunakan perangkat tablet pada file reading_data.csv
@@ -79,6 +80,8 @@ awk [options] 'pattern { action }' input-file(s). dimana patern adalah kondisi y
 2. Saya Menyesuaikan command agar menggunakan if-else
 
 ### Gambar
+![Sebelum If-else](image_for_readme/Nomor%201%20B%20Kendala%20dan%20hasil.png)
+![Setelah If-else](image_for_readme/Nomor%201%20B%20pakai%20if-else.png)
 
 
 #### 1.C
@@ -113,7 +116,8 @@ else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya
 4.	Saya melewati baris pertama
    
 ### Gambar
-
+![Sebelum If-else](image_for_readme/Nomor%201%20C%20sebelum%20pakai%20IF-else.png)
+![Setelah If-else](image_for_readme/Nomor%201%20C%20Pakai%20if-else.png)
 
 #### 1. D
 1.D Siroyo ingin mengetahui berapa buku untuk Genre buku paling populer di Asia setelah 31 Desember 2023 pada file reading_data.csv
@@ -138,7 +142,7 @@ Jika sudah ditemukan Jumlah_Genre_Terbanyak >0 maka mencetak "Genre paling popul
 1. saya membentuk Jarak dengan spasi sehingga tidak terpenggal dan dapat dieksekusi
 
 ### Gambar
-
+![Menggunakan If-else](image_for_readme/Nomor%201%20D%20Kendala%20dan%20hasil.png)
 
 # Soal 2
 
