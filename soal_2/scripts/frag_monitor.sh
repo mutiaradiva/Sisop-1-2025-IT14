@@ -1,50 +1,61 @@
 #!/bin/bash
 bpytop
 
-# Path ke folder logs yang berada di luar direktori skrip
+# Path ke folder logs
 LOG_DIR="../logs"
 LOG_FILE="$LOG_DIR/fragment.log"
 
 # Buat folder logs jika belum ada
 mkdir -p "$LOG_DIR"
 
-# Fungsi untuk mendapatkan penggunaan RAM
+# Fungsi untuk mendapatkan penggunaan RAM menggunakan awk
 get_ram_usage() {
-    # Baca informasi RAM dari /proc/meminfo
-    RAM_INFO=$(grep -E 'MemTotal|MemAvailable' /proc/meminfo)
-    TOTAL_RAM=$(echo "$RAM_INFO" | grep 'MemTotal' | awk '{print $2}')
-    AVAILABLE_RAM=$(echo "$RAM_INFO" | grep 'MemAvailable' | awk '{print $2}')
-
-    # Konversi dari KB ke MB
-    TOTAL_RAM=$((TOTAL_RAM / 1024))
-    AVAILABLE_RAM=$((AVAILABLE_RAM / 1024))
-    USED_RAM=$((TOTAL_RAM - AVAILABLE_RAM))
-
-    # Hitung persentase penggunaan RAM
-    RAM_USAGE_PERCENT=$(echo "scale=2; ($USED_RAM / $TOTAL_RAM) * 100" | bc)
-
-    echo "$RAM_USAGE_PERCENT"
+    awk '
+    /MemTotal/ {total=$2}
+    /MemAvailable/ {available=$2}
+    END {
+        if (total > 0) {
+            usage_percent = ((total - available) / total) * 100
+            printf "%.2f %d %d\n", usage_percent, total/1024, available/1024
+        } else {
+            print "N/A N/A N/A"
+        }
+    }' /proc/meminfo
 }
 
-# Fungsi untuk mendapatkan fragmentasi RAM
+# Fungsi untuk mendapatkan jumlah fragmentasi dalam MB menggunakan awk
 get_fragment_count() {
-    # Contoh: Hitung fragmentasi RAM (ini hanya contoh, Anda bisa menyesuaikan dengan kebutuhan)
-    FRAGMENT_COUNT=$(vmstat -s | grep "fragmented memory" | awk '{print $1}')
-    echo "$FRAGMENT_COUNT"
+    awk '
+    BEGIN { fragment_mb = 0; split("4 8 16 32 64 128 256 512 1024 2048", block_sizes) }
+    {
+        for (i = 3; i <= NF; i++) {
+            fragment_mb += $i * block_sizes[i - 2] / 1024
+        }
+    }
+    END { print fragment_mb }' /proc/buddyinfo
 }
 
 # Ambil informasi RAM
-RAM_USAGE=$(get_ram_usage)
-FRAGMENT_COUNT=$(get_fragment_count)
+RAM_INFO=$(get_ram_usage)
+RAM_USAGE=$(echo "$RAM_INFO" | awk '{print $1}')
+TOTAL_RAM=$(echo "$RAM_INFO" | awk '{print $2}')
+AVAILABLE_RAM=$(echo "$RAM_INFO" | awk '{print $3}')
 
-# Format waktu untuk log
+# Ambil informasi fragmentasi dalam MB
+FRAGMENT_COUNT_MB=$(get_fragment_count)
+
+# Format tampilan jika data tidak tersedia
+if [[ "$TOTAL_RAM" == "N/A" || "$AVAILABLE_RAM" == "N/A" ]]; then
+    TOTAL_RAM_DISPLAY="N/A"
+    AVAILABLE_RAM_DISPLAY="N/A"
+else
+    TOTAL_RAM_DISPLAY="${TOTAL_RAM} MB"
+    AVAILABLE_RAM_DISPLAY="${AVAILABLE_RAM} MB"
+fi
+
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
-# Format output log
-LOG_ENTRY="[$TIMESTAMP] - Fragment Usage [$RAM_USAGE%] - Fragment Count [$FRAGMENT_COUNT MB] - Details [Total: $TOTAL_RAM MB, Available: $AVAILABLE_RAM MB]"
+LOG_ENTRY="[$TIMESTAMP] - Fragment Usage [$RAM_USAGE%] - Fragment Count [$FRAGMENT_COUNT_MB MB] - Details [Total: $TOTAL_RAM_DISPLAY, Available: $AVAILABLE_RAM_DISPLAY]"
 
-# Simpan log
 echo "$LOG_ENTRY" >> "$LOG_FILE"
-
-# Tampilkan hasil di terminal
 echo "$LOG_ENTRY"
