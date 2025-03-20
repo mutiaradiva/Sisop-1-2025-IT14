@@ -723,6 +723,12 @@ done
 
 ![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20On%20the%20Run.png?raw=true)
 
+##### Kesalahan : Lebar barcode tidak sesuai terminal
+```bash
+
+```
+
+
 #### C. Time - Waktu berjalan sesuai dengan keadaan saat ini
 
 ```bash
