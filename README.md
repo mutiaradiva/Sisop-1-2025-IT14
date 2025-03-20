@@ -723,11 +723,17 @@ done
 
 ![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20On%20the%20Run.png?raw=true)
 
-##### Kesalahan : Lebar barcode tidak sesuai terminal
+##### Kesalahan : Lebar loading tidak sesuai terminal
 ```bash
-
+bar_length=70  
 ```
 
+`bar_length=70` → Menetapkan lebar terminal sepanjang 70
+
+##### Revisi : Menyesuaikan Lebar Loading dengan terminal
+
+- Menggunakan `tput cols` → untuk menentukan panjang progress bar.
+- `bar_length=$((term_width - 10))` → berfungsi untuk menentukan panjang maksimum dari progress bar dengan mengurangi 10 karakter dari lebar terminal
 
 #### C. Time - Waktu berjalan sesuai dengan keadaan saat ini
 
