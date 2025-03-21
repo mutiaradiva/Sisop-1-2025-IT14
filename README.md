@@ -26,7 +26,7 @@ Pertama saya membuat file directory. Lalu masuk kedalam directory.Lalu, mendownl
 ![tahap awal](image_for_readme/Mendownload%20File%20csv%20nomor%201.png)
 
 #### 1. A
-1. A Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
+Membuat filter dengan kriteria berapa banyak buku yang dibaca oleh Chris Hemsworth di file reading_data.csv
 berikut commmand secara keseluruhan yang saya gunakan:
 ```
 awk '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } } END { if (n > 0) print "Chris Hemsworth membaca", n, "buku."; else print "Chris Hemsworth tidak membaca buku."; }' reading_data.csv
@@ -60,7 +60,7 @@ dimana n adalah jumlah kemunculan nama Chris Hemsworth.
 ![Setelah If-else](image_for_readme/Nomor%201%20A%20Pakai%20IF-Else.png)
 
 #### 1. B
-1. B Siroyo penasaran berapa waktu rata-rata membaca menggunakan perangkat tablet pada file reading_data.csv
+Siroyo penasaran berapa waktu rata-rata membaca menggunakan perangkat tablet pada file reading_data.csv
    
 Berikut command keseluruhan yang saya gunakan :
 ```
@@ -93,7 +93,7 @@ END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", to
 
 
 #### 1.C
-1.C Poppo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca (Rating) beserta nama (Name) dan judul bukunya (Book_Title) pada file reading_data.csv
+Poppo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca (Rating) beserta nama (Name) dan judul bukunya (Book_Title) pada file reading_data.csv
 Berikut command secara keseluruhan yang saya gunakan :
 ```
 awk 'BEGIN {FS=","; Maks=0} { if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }
@@ -127,11 +127,13 @@ Setelah seluruh data dibaca, blok END dieksekusi.
 ![Setelah If-else](image_for_readme/Nomor%201%20C%20Pakai%20if-else.png)
 
 #### 1. D
-1.D Siroyo ingin mengetahui berapa buku untuk Genre buku paling populer di Asia setelah 31 Desember 2023 pada file reading_data.csv
+Siroyo ingin mengetahui berapa buku untuk Genre buku paling populer di Asia setelah 31 Desember 2023 pada file reading_data.csv
 ```
 awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ } END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0; for (n in Ngitung_Genre) { if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' reading_data.csv
 ```
+
 ### Cara Pengerjaan
+
 ```
 NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ }
 ```
@@ -143,7 +145,8 @@ NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ }
 
 - Jika ketiga kondisi terpenuhi, variabel Ngitung_Genre[$4] (berisi genre dari kolom 4) akan bertambah 1 setiap kali ditemukan genre yang sama.
 
-```END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0;
+```
+END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0;
 ```
 - Jenis_Genre="" adalah variabel string untuk menyimpan genre paling populer.
   
