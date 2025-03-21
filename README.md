@@ -579,7 +579,18 @@ Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_
 ![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Crontab%20no%202%20Salah.png?raw=true)
 
 ##### Revisi : Kami sudah menambahkan variabel yang dapat mengarahkan output crontab langsung ke folder log
-- 
+``` bash
+  add_cpu_monitor() {
+    cron_job="* * * * * $PWD/scripts/core_monitor.sh >> $PWD/logs/core.log"
+    (crontab -l; echo "$cron_job") | crontab -
+    echo "CPU monitoring ditambahkan ke crontab."
+
+  add_ram_monitor() {
+    cron_job="* * * * * $PWD/scripts/frag_monitor.sh >> $PWD/logs/fragment.log"
+    (crontab -l; echo "$cron_job") | crontab -
+    echo "RAM monitoring ditambahkan ke crontab."}
+```
+}
 ### Output
 ![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Crontab%20no%202%20versi%20Benar.png?raw=true)
 
