@@ -1,115 +1,61 @@
 #!/bin/bash
 
-# Lokasi script pemantauan CPU dan RAM
-CPU_MONITOR="./scripts/core_monitor.sh"
-RAM_MONITOR="./scripts/frag_monitor.sh"
+# ===================== KONFIGURASI PATH ABSOLUT =====================
+PROJECT_ROOT="/path/to/project"  # Ganti dengan path absolut ke folder project Anda
+SCRIPTS_DIR="$PROJECT_ROOT/scripts"
+LOGS_DIR="$PROJECT_ROOT/logs"
 
-# Menampilkan menu utama
-display_banner() {
-    clear
-    echo "/*  .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--..--..--..--.  */"
-    echo "/* / .. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \ */"
-    echo "/* \ \/\`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \/ / */"
-    echo "/*  \/ /\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\/ /  */"
-    echo "/*  / /\                                                                / /\  */"
-    echo "/* / /\ \                                                              / /\ \ */"
-    echo "/* \ \/ /        _     ____    ____     _     _____     _              \ \/ / */"
-    echo "/*  \/ /        / \   |  _ \  / ___|   / \   | ____|   / \              \/ /  */"
-    echo "/*  / /\       / _ \  | |_) || |      / _ \  |  _|    / _ \             / /\  */"
-    echo "/* / /\ \     / ___ \ |  _ < | |___  / ___ \ | |___  / ___ \           / /\ \ */"
-    echo "/* \ \/ /    /_/   \_\|_| \_\ \____|/_/   \_\|_____|/_/   \_\          \ \/ / */"
-    echo "/*  \/ /      ____ __   __ ____  _____  _____  __  __                   \/ /  */"
-    echo "/*  / /\     / ___|\ \ / // ___||_   _|| ____||  \/  |                  / /\  */"
-    echo "/* / /\ \    \___ \ \ V / \___ \  | |  |  _|  | |\/| |                 / /\ \ */"
-    echo "/* \ \/ /     ___) | | |   ___) | | |  | |___ | |  | |                 \ \/ / */"
-    echo "/*  \/ /     |____/  |_|  |____/  |_|  |_____||_|  |_|                  \/ /  */"
-    echo "/*  / /\      __  __     _     _   _     _     ____  _____  ____        / /\  */"
-    echo "/* / /\ \    |  \/  |   / \   | \ | |   / \   / ___|| ____||  _ \      / /\ \ */"
-    echo "/* \ \/ /    | |\/| |  / _ \  |  \| |  / _ \ | |  _ |  _|  | |_) |     \ \/ / */"
-    echo "/*  \/ /     | |  | | / ___ \ | |\  | / ___ \| |_| || |___ |  _ <       \/ /  */"
-    echo "/*  / /\     |_|  |_|/_/   \_\|_| \_|/_/   \_\\____||_____||_| \_\      / /\  */"
-    echo "/* / /\ \                                                              / /\ \ */"
-    echo "/* \ \/ /                                                              \ \/ / */"
-    echo "/*  \/ /                                                                \/ /  */"
-    echo "/*  / /\.--..--..--..--..--..--..--..--..--..--..--..--..--..--..--..--./ /\  */"
-    echo "/* / /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \ */"
-    echo "/* \ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`'\ \`' / */"
-    echo "/*  \`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'\`--'  */"
+CPU_MONITOR_SCRIPT="$SCRIPTS_DIR/core_monitor.sh"
+RAM_MONITOR_SCRIPT="$SCRIPTS_DIR/frag_monitor.sh"
+
+# ========================= FUNGSI UTAMA =============================
+
+show_menu() {
+    echo "Crontab Manager"
+    echo "1. Add CPU [Core] Usage Monitoring"
+    echo "2. Remove CPU [Core] Usage Monitoring"
+    echo "3. Add RAM [Fragment] Usage Monitoring"
+    echo "4. Remove RAM [Fragment] Usage Monitoring"
+    echo "5. View Active Jobs"
+    echo "6. Exit"
+    read -p "Pilih opsi: " choice
 }
 
-# Fungsi untuk menghapus entri terakhir dari crontab
-remove_last_entry() {
-    local search_term=$1
-    local crontab_content=$(crontab -l 2>/dev/null)
+add_cpu_monitor() {
+    cron_job="* * * * * $PWD/scripts/core_monitor.sh >> $PWD/logs/core.log"
+    (crontab -l; echo "$cron_job") | crontab -
+    echo "CPU monitoring ditambahkan ke crontab."
+}
 
-    # Jika crontab tidak kosong
-    if [[ -n "$crontab_content" ]]; then
-        # Cari semua entri yang sesuai dengan search_term
-        local entries=$(echo "$crontab_content" | grep "$search_term")
+remove_cpu_monitor() {
+    crontab -l | grep -v "core_monitor.sh" | crontab -
+    echo "CPU monitoring dihapus dari crontab."
+}
 
-        # Jika ada entri yang sesuai
-        if [[ -n "$entries" ]]; then
-            # Ambil semua kecuali entri terakhir
-            local new_crontab=$(echo "$crontab_content" | grep -v "$(echo "$entries" | tail -n 1)")
+add_ram_monitor() {
+    cron_job="* * * * * $PWD/scripts/frag_monitor.sh >> $PWD/logs/fragment.log"
+    (crontab -l; echo "$cron_job") | crontab -
+    echo "RAM monitoring ditambahkan ke crontab."
+}
 
-            # Perbarui crontab
-            echo "$new_crontab" | crontab -
-            echo "Entri terakhir untuk '$search_term' telah dihapus dari Crontab."
-        else
-            echo "Tidak ada entri yang sesuai dengan '$search_term' di Crontab."
-        fi
-    else
-        echo "Crontab kosong."
-    fi
+remove_ram_monitor() {
+    crontab -l | grep -v "frag_monitor.sh" | crontab -
+    echo "RAM monitoring dihapus dari crontab."
+}
+
+view_jobs() {
+    crontab -l
 }
 
 while true; do
-    display_banner
-    echo "┌────────────────────────────────────────┐"
-    echo "│           ARCAEA TERMINAL              │"
-    echo "├────┬───────────────────────────────────┤"
-    echo "│ ID │ OPTION                            │"
-    echo "├────┼───────────────────────────────────┤"
-    echo "│ 1  │ Add CPU - Core Monitor to Crontab │"
-    echo "│ 2  │ Add RAM - Fragment Monitor        │"
-    echo "│ 3  │ Remove CPU - Core Monitor         │"
-    echo "│ 4  │ Remove RAM - Fragment Monitor     │"
-    echo "│ 5  │ View All Scheduled Jobs           │"
-    echo "│ 6  │ Exit Arcaea Terminal              │"
-    echo "└────┴───────────────────────────────────┘"
-    read -p "Enter option [1-6]: " option
-
-    case $option in
-        1)
-            # Menambahkan CPU Monitor ke Crontab (Setiap 1 menit)
-            (crontab -l 2>/dev/null; echo "* * * * * $CPU_MONITOR") | crontab -
-            echo "CPU Monitor telah ditambahkan ke Crontab."
-            ;;
-        2)
-            # Menambahkan RAM Monitor ke Crontab (Setiap 1 menit)
-            (crontab -l 2>/dev/null; echo "* * * * * $RAM_MONITOR") | crontab -
-            echo "RAM Monitor telah ditambahkan ke Crontab."
-            ;;
-        3)
-            # Menghapus entri terakhir untuk CPU Monitor dari Crontab
-            remove_last_entry "$CPU_MONITOR"
-            ;;
-        4)
-            # Menghapus entri terakhir untuk RAM Monitor dari Crontab
-            remove_last_entry "$RAM_MONITOR"
-            ;;
-        5)
-            # Menampilkan daftar Crontab aktif
-            echo "Daftar Crontab Aktif:"
-            crontab -l
-            ;;
-        6)
-            echo "Keluar dari Arcaea Terminal..."
-            exit 0
-            ;;
-        *)
-            echo "Pilihan tidak valid!"
-            ;;
+    show_menu
+    case $choice in
+        1) add_cpu_monitor ;;
+        2) remove_cpu_monitor ;;
+        3) add_ram_monitor ;;
+        4) remove_ram_monitor ;;
+        5) view_jobs ;;
+        6) echo "Keluar."; exit 0 ;;
+        *) echo "Pilihan tidak valid." ;;
     esac
-    read -p "Tekan ENTER untuk kembali ke menu..."
 done
