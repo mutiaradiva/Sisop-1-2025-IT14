@@ -33,23 +33,29 @@ awk '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } } END { if (n > 0) print 
 ```
 
 ### Cara Pengerjaan 
-" '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } }" adalah inisialisasi awal sebelum membaca input dibaca. Jumlah adalah semacam variabel yang akan bertambah 1 Jika apakah seluruh baris menggandung kata Chris Hemsworth , jika iya n akan bertambah dengan menampung angkanya. kenapa menggunakan ~ (regex) bukan == karena regex lebih fleksibel jika dengan huruf besar dan kecil walaupun saya mengakui itu kesalahan karena lebih bagus mengguakan == agar sesuai ketentuan.
 
-"END { if (n > 0) print "Chris Hemsworth membaca", n, "buku."; else print "Chris Hemsworth tidak membaca buku."; }'"
-setelah input sudah dibaca (END), maka berlaku ketentuan. Jika N > 0 (penambahan setiap bertemu nama Chris Hemsworth) maka mencetak "Chris Hemsworth membaca", n, "buku." dengan n adalah variabel yang menampung jumlah bukunya. jika tidak maka tercetak kalimat "Chris Hemsworth tidak membaca buku.".
+```awk
+{ jumlah += 1; if ($0 ~ /Chris Hemsworth/) { ++n } }```
+- jumlah += 1: Menambahkan nilai 1 pada variabel jumlah untuk setiap baris yang diproses.
 
-"reading_data.csv" adalah file yang di baca.
+- if ($0 ~ /Chris Hemsworth/) { ++n }: Memeriksa apakah baris tersebut mengandung kata Chris Hemsworth menggunakan pencocokan dengan ekspresi reguler (regex). Jika kondisinya terpenuhi, variabel n akan bertambah satu.
 
-### Kendala
- 1.saya salah menuliskan nama pembacanya chris hemsworth padahal Chris Hemsworth
- 2. Saya tidak membaca note dimana harus menggunakan if else
+>Catatan: Penggunaan operator ~ memungkinkan pencocokan yang fleksibel, meskipun berdasarkan ketentuan yang ada, penggunaan >operator == mungkin lebih tepat.
 
-### Solusi
-1. saya meneliti command nya sudah sesuai pada GitHub modul 1 maka saya mencoba melihat soal dan ternyata salah huruf kapital.
-2. Saya menata ulang lagi command nya agar mengandung if-else
+```
+END { 
+    if (n > 0) 
+        print "Chris Hemsworth membaca", n, "buku."; 
+    else 
+        print "Chris Hemsworth tidak membaca buku."; 
+}
+```
+- Jika nilai n lebih besar dari 0, maka akan dicetak pesan:"Chris Hemsworth membaca n buku."
+dimana n adalah jumlah kemunculan nama Chris Hemsworth.
+- Jika nilai n sama dengan 0, maka akan dicetak pesan: "Chris Hemsworth tidak membaca buku."
 
 ### Gambar 
-![Sebelum If-else](image_for_readme/Nomor%201%20A%20%20kendala%20dan%20hasil.png)
+
 ![Setelah If-else](image_for_readme/Nomor%201%20A%20Pakai%20IF-Else.png)
 
 #### 1. B
@@ -63,24 +69,22 @@ awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } }
 ```
 
 ### Cara Pengerjaan
-" 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } } " command awal BEGIN digunakan untuk eksekusi sebelum file dibaca.FS/field separator adalah pemisah kolom dalam kasus ini menggunakan "," .  " if ($8 == "Tablet") { total+=$6; hitung++ }" Jika kolom 8 mengandung kata Tablet, maka variabel total yang menampung kolom 6 yang berisi durasi membaca akan terus bertambah. Lalu variabel hitung++ menambahkan jumlah baris agar dapat menghitung rata-ratanya.
+```awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } 
+```
+- if ($8 == "Tablet"): Kondisi ini memeriksa apakah kolom ke-8 mengandung kata Tablet.
+- total += $6: Jika kondisi terpenuhi, nilai pada kolom ke-6 (yang berisi durasi membaca) akan ditambahkan ke variabel total.
+- hitung++: Variabel hitung akan bertambah satu untuk setiap baris data yang memenuhi kondisi, sehingga nantinya dapat digunakan untuk menghitung rata-rata.
 
-"END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
- else{ print "Tidak ada data membaca dengan Tablet." }}'"  Setelah input sudah dibaca (END) , berlaku ketentuan. Jika hitung >0 maka cetak "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit" dimana total : hitung adalah menghitung rata-rata durasi membaca. Jika hitung  < 0 maka mencetak "Tidak ada data membaca dengan Tablet.".
-
- "reading_data.csv" adalah file data yang dibaca
-
- ### Kendala
- 1.saya bingung apa yang membuat perintah menggunakan {} dan tidak , karena $8 =="Tablet" tidak menggunakan {} saya mencontohnya pada modul GitHub NR==2.
-2.Saya tidak membaca note terakhir
-
-### Solusi 
-1. saya menemukan pada website geeksforgeeks bahwa penyusunan awk adalah
-awk [options] 'pattern { action }' input-file(s). dimana patern adalah kondisi yang dicek setiap barisnya dan action merupakan eksekusi dengan syarat pattern terpenuhi
-2. Saya Menyesuaikan command agar menggunakan if-else
+```END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
+ else{ print "Tidak ada data membaca dengan Tablet." }}' reading_data.csv
+```
+- Jika nilai hitung lebih besar dari 0, maka akan dicetak pesan:
+"Rata-rata durasi membaca dengan Tablet adalah total/hitung menit" Dimana total/hitung merupakan hasil perhitungan rata-rata durasi membaca.
+- Jika tidak ada baris data yang memenuhi kondisi (nilai hitung tidak lebih besar dari 0), maka akan dicetak:
+"Tidak ada data membaca dengan Tablet."
 
 ### Gambar
-![Sebelum If-else](image_for_readme/Nomor%201%20B%20Kendala%20dan%20hasil.png)
+
 ![Setelah If-else](image_for_readme/Nomor%201%20B%20pakai%20if-else.png)
 
 
@@ -93,30 +97,29 @@ awk 'BEGIN {FS=","; Maks=0} { if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; J
 else {print "Tidak ada data rating yang valid." }}' reading_data.csv
 ```
 ### Cara Pengerjaan
+```
+{ if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }
+```
+- NR > 1 memastikan bahwa baris pertama (header) dilewati.
+  
+- Kondisi if ($7 > Maks) memeriksa apakah nilai di kolom 7 lebih besar daripada nilai Maks yang tersimpan.
+  
+- Jika kondisi terpenuhi, maka:
+   -Maks diperbarui dengan nilai baru dari kolom 7.
+   -Variabel nama diisi dengan nilai dari kolom 2.
+   -Variabel JudulBuku diisi dengan nilai dari kolom 3.
 
-Saya menggunakan filter awk untuk mencari hal yang kita inginkan. "BEGIN {FS=","; Maks=0}" BEGIN adalah eksekusi yang dijalankan sebelum masuk ke file nya. FS/field separator adalah pemisah kolom dalam kasus ini menggunakan "," .Maks adalah semacam variabel yang di inisialisasi int karena kalau tidak akan secara default string.
+```
+END { if (Maks > 0) { print "Pembaca dengan rating tertinggi:", nama, "-", JudulBuku, "-", Maks } else { print "Tidak ada data rating yang valid." } }
+```
+Setelah seluruh data dibaca, blok END dieksekusi.
 
-"{ if (NR > 1) { if ($7 > Maks) { Maks=$7; nama=$2; JudulBuku=$3 } } }"  adalah filternya. NR >1 berarti pembacaan dimulai dari baris >1 karena baris pertama merupakan string. maks adalah variabel yang menampung setiap baris yang ada pada kolom 7. nama adalah variabel yang menampung baris kolom 2 dan JudulBuku adalah variabel yang menampung baris pada kolom 3. Semua variabel tadi akan berganti nilai ke baris selanjutnya jika "($7 > Maks)" ada rating pada baris selanjutnya yang melebihi pada baris sebelumnya. 
-
-"END { if (Maks > 0) {print "Pembaca dengan rating tertinggi:", nama, "-", JudulBuku, "-", Maks}
-else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya ketika semua input telah dibaca / filter dari begin tadi. Jika maks > 0 maka akan menampilkan kata-kata "Pembaca dengan rating tertinggi:" lalu bisa menampilkan nilai variabel dengan memisahkannya dengan ",". Lalu, masukkan varibel seperti pada contoh yaitu nama. lalu "-". masukkan variabel lagi yaitu JudulBuku.Lalu, "-". MAsukkan variabel lagi yaitu Maks agar sesuai tamplate soal. Jika file <0 , maka akan menampilkan kalimat "Tidak ada data rating yang valid.".
-
-"reading_data.csv" adalah file yang menjadi acuannya
-
-### Kendala
-1.saya salah penulisan pemanggian variable ternyata awk itu case sensitive
-2. Saya awalnya tidak menyimpan kolom 2 dan 3 dalam variable sehingga tidak tercetak sebagai syarat rating tertinggi malah mencetak baris terakhir makanya saya menambahkan variabel
-3. Saya awalnya tidak menggunakan FS sebagai pemisah kolom jadi outputnya tidak jelas
-4. perbandingan kolom ke 7 yaitu rating awalnya terhambat karena baris pertama adalah string sehingga baris lain tidak dieksekusi jadi saya memutuskan untuk melewati baris pertama.
-
-### Solusi 
-1.	Saya lebih teliti lago
-2.	Saya tambahkan variable yang menampung kolom 2 dan 3
-3.	Saya menambahkannya
-4.	Saya melewati baris pertama
-   
+- Jika Maks > 0, maka program mencetak pesan yang menampilkan nama pembaca, judul buku, dan rating tertinggi.
+  
+- Jika tidak ada data rating yang valid (nilai Maks tidak lebih besar dari 0), maka program mencetak pesan "Tidak ada data rating yang valid."
+ 
 ### Gambar
-![Sebelum If-else](image_for_readme/Nomor%201%20C%20sebelum%20pakai%20IF-else.png)
+
 ![Setelah If-else](image_for_readme/Nomor%201%20C%20Pakai%20if-else.png)
 
 #### 1. D
@@ -125,21 +128,37 @@ else {print "Tidak ada data rating yang valid." }}'" . END akan dijalankan hanya
 awk 'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ } END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0; for (n in Ngitung_Genre) { if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' reading_data.csv
 ```
 ### Cara Pengerjaan
-“'BEGIN { FS="," } NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ }”  diawali dengan BEGIN yaitu eksekusi sebelum input file dibaca. Syarat pertama,NR /Number Record  > 1 artinya baris pertama dilewati karena mengandung string. Syarat kedua yaitu  “$5 > "2023-12-31" “ dimana Kolom 5 harus lebih dari ketentuan waktu 31 desember 2023. Syarat Ketiga yaitu “ $9 ~ /Asia/” dimana kolom 9 harus mengandung kata Asia. Perlu diketahui bahwa penggunaan Asia agar yang mengandung kata tidak hanya Asia bisa termasuk seperti Asia Tenggara. Ketiga syarat akan menambah angka variable Ngitung_Genre pada kolom 4.
+```
+NR > 1 && $5 > "2023-12-31" && $9 ~ /Asia/ { Ngitung_Genre[$4]++ }
+```
+- NR > 1 memastikan bahwa baris pertama (header) dilewati.
+  
+- $5 > "2023-12-31" memastikan hanya data setelah 31 Desember 2023 yang diproses.
+  
+- $9 ~ /Asia/ memastikan hanya data dengan kata "Asia" dalam kolom 9 yang diproses.
 
-“END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0;” END sebagai eksekusi setelah input dibaca. Jenis_Genre adalah variable dengan tipe data string dan Jumlah_Genre_Terbanyak adalah variabel dengan int.
+- Jika ketiga kondisi terpenuhi, variabel Ngitung_Genre[$4] (berisi genre dari kolom 4) akan bertambah 1 setiap kali ditemukan genre yang sama.
 
-“for (n in Ngitung_Genre) {if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } } “ Perulangan ditampung pada variable n yang mengambil nilai key dari Ngitung_Genre. Lalu dibandingkan apakah Jumlah Ngitung_Genre[n] > Jumlah_Genre_terbanyak yang awal di inisialisasi dengan 0. Jika iya, maka Jenis_Genre yang menampung string akan menjadi string/nama genre dari Ngitun_genre Dan Jumlah_Genre_Terbanyak yang menampung int akan mengambil angkanya Ngitung Genre. Iterasi selanjutnya akan membandingkan Genre yang paling banyak muncul
+```END { Jenis_Genre=""; Jumlah_Genre_Terbanyak=0;
+```
+- Jenis_Genre="" adalah variabel string untuk menyimpan genre paling populer.
+  
+- Jumlah_Genre_Terbanyak=0 adalah variabel integer untuk menyimpan jumlah kemunculan terbanyak.
 
-“ if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }' “
-Jika sudah ditemukan Jumlah_Genre_Terbanyak >0 maka mencetak "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" dengan Jenis_Genre dan Jumlah_Genre_Terbanyak dipanggil dari variabel. jika <0 ,maka mencetak "Tidak ada Genre favorit".
+```
+for (n in Ngitung_Genre) { if (Ngitung_Genre[n] > Jumlah_Genre_Terbanyak) { Jenis_Genre=n; Jumlah_Genre_Terbanyak=Ngitung_Genre[n] } }
+```
+- Perulangan for (n in Ngitung_Genre) akan mengiterasi semua genre yang telah dihitung.
+- Jika Ngitung_Genre[n] lebih besar dari Jumlah_Genre_Terbanyak, maka:
+  - Jenis_Genre diperbarui dengan nama genre yang memiliki jumlah terbanyak.
+  - Jumlah_Genre_Terbanyak diperbarui dengan jumlah terbanyak saat ini.
+- Perulangan ini memastikan bahwa genre dengan jumlah terbanyak akan tersimpan.
 
-
-### Kendala
-1. pada penulisan saya karena menggunakan 1 line itu ada yang terpenggal variable nya an tidak dapat dieksekusi
-
-### Solusi 
-1. saya membentuk Jarak dengan spasi sehingga tidak terpenggal dan dapat dieksekusi
+```
+if (Jumlah_Genre_Terbanyak>0) { print "Genre paling populer di Asia setelah 2023 adalah", Jenis_Genre, "dengan", Jumlah_Genre_Terbanyak, "buku" } else { print "Tidak ada Genre favorit" } }
+```
+- Jika Jumlah_Genre_Terbanyak > 0, maka program akan mencetak genre yang paling populer beserta jumlah kemunculannya.
+- Jika tidak ada data yang memenuhi kriteria, program akan mencetak "Tidak ada Genre favorit".
 
 ### Gambar
 ![Menggunakan If-else](image_for_readme/Nomor%201%20D%20Kendala%20dan%20hasil.png)
