@@ -576,7 +576,7 @@ Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_
 - Hal ini dikarenakan tidak adanya variabel yang mengarahkan crontab ke folder log sehingga output tidak tertampil secara real time
 
 ### Output
-![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Speak%20to%20Me.png?raw=true)
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Crontab%20no%202%20Salah.png?raw=true)
 
 ##### Revisi : Kami sudah menambahkan variabel yang dapat mengarahkan output crontab langsung ke folder log
 - 
