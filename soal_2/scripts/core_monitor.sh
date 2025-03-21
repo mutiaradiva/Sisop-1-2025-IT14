@@ -1,6 +1,8 @@
 #!/bin/bash
 bpytop
 
+echo "Script started at $(date)" >> /home/fatihul_qolbi/Sementara/Soal_2/logs/scripts.log
+
 # Path ke folder logs yang berada di luar direktori skrip
 LOG_DIR="../logs"
 LOG_FILE="$LOG_DIR/core.log"
