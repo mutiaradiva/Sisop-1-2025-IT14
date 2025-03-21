@@ -70,13 +70,16 @@ awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } }
 ```
 
 ### Cara Pengerjaan
-```awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } 
 ```
+awk 'BEGIN{FS=","} { if ($8 == "Tablet") { total+=$6; hitung++ } 
+```
+
 - if ($8 == "Tablet"): Kondisi ini memeriksa apakah kolom ke-8 mengandung kata Tablet.
 - total += $6: Jika kondisi terpenuhi, nilai pada kolom ke-6 (yang berisi durasi membaca) akan ditambahkan ke variabel total.
 - hitung++: Variabel hitung akan bertambah satu untuk setiap baris data yang memenuhi kondisi, sehingga nantinya dapat digunakan untuk menghitung rata-rata.
 
-```END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
+```
+END { if (hitung > 0) {print "Rata-rata durasi membaca dengan Tablet adalah", total/hitung, "menit"}
  else{ print "Tidak ada data membaca dengan Tablet." }}' reading_data.csv
 ```
 - Jika nilai hitung lebih besar dari 0, maka akan dicetak pesan:
