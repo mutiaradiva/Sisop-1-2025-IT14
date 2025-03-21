@@ -262,7 +262,9 @@ hashed_password=$(echo -n "$password$SALT" | sha256sum | awk '{print $1}')
 #### E “The Brutality of Glass”
 ```bash
 #!/bin/bash
-btop
+bpytop
+
+echo "Script started at $(date)" >> /home/fatihul_qolbi/Sementara/Soal_2/logs/scripts.log
 
 # Path ke folder logs yang berada di luar direktori skrip
 LOG_DIR="../logs"
@@ -271,33 +273,10 @@ LOG_FILE="$LOG_DIR/core.log"
 # Buat folder logs jika belum ada
 mkdir -p "$LOG_DIR"
 
-# Fungsi untuk mendapatkan penggunaan CPU
+# Fungsi untuk mendapatkan penggunaan CPU menggunakan awk
 get_cpu_usage() {
-    # Baca stat CPU dari /proc/stat
-    CPU_STAT=$(grep '^cpu ' /proc/stat)
-    CPU_STAT_ARRAY=($CPU_STAT)
-
-    # Hitung total waktu CPU
-    TOTAL=0
-    for value in "${CPU_STAT_ARRAY[@]:1:8}"; do
-        TOTAL=$((TOTAL + value))
-    done
-    IDLE=${CPU_STAT_ARRAY[4]}
-
-    # Hitung perubahan dan persentase penggunaan CPU
-    if [[ -n "$PREV_TOTAL" && -n "$PREV_IDLE" ]]; then
-        DIFF_TOTAL=$((TOTAL - PREV_TOTAL))
-        DIFF_IDLE=$((IDLE - PREV_IDLE))
-        DIFF_USAGE=$(( (100 * (DIFF_TOTAL - DIFF_IDLE)) / DIFF_TOTAL ))
-    else
-        DIFF_USAGE=0
-    fi
-
-    # Simpan nilai saat ini untuk penggunaan berikutnya
-    PREV_TOTAL=$TOTAL
-    PREV_IDLE=$IDLE
-
-    echo "$DIFF_USAGE"
+    awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' \
+    <(grep 'cpu ' /proc/stat) <(sleep 1; grep 'cpu ' /proc/stat)
 }
 
 # Fungsi untuk mendapatkan model CPU
@@ -314,7 +293,7 @@ CPU_MODEL=$(get_cpu_model)
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
 # Format output log
-LOG_ENTRY="[$TIMESTAMP] - Core Usage [$CPU_USAGE%] - Terminal Model [$CPU_MODEL]"
+LOG_ENTRY="[$TIMESTAMP] - Core Usage [$CPU_USAGE] - Terminal Model [$CPU_MODEL]"
 
 # Simpan log
 echo "$LOG_ENTRY" >> "$LOG_FILE"
