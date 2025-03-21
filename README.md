@@ -581,8 +581,7 @@ Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_
 ##### Revisi : Kami sudah menambahkan variabel yang dapat mengarahkan output crontab langsung ke folder log
 - 
 ### Output
-![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Speak%20to%20Me.png?raw=true)
-
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Crontab%20no%202%20versi%20Benar.png?raw=true)
 
 #### H “The Disfigured Flow of Time”
 Gambar core.log
