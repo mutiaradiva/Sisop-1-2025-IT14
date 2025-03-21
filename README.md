@@ -570,6 +570,20 @@ Setelah penghapusan, fungsi menampilkan pesan bahwa entri terakhir untuk search_
 
 3. Lalu, user dapat memilih menu di display banner
 
+## Revisi No 2G (On Fate's Approach)
+
+##### Kesalahan : Crontab tidak berjalan dan tidak bisa memonitoring CPU & Ram dalam jangka waktu tertentu 
+- Hal ini dikarenakan tidak adanya variabel yang mengarahkan crontab ke folder log sehingga output tidak tertampil secara real time
+
+### Output
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Speak%20to%20Me.png?raw=true)
+
+##### Revisi : Kami sudah menambahkan variabel yang dapat mengarahkan output crontab langsung ke folder log
+- 
+### Output
+![image alt](https://github.com/mutiaradiva/Sisop-1-2025-IT14/blob/main/image_for_readme/Output%20Speak%20to%20Me.png?raw=true)
+
+
 #### H “The Disfigured Flow of Time”
 Gambar core.log
 ![Core-log](image_for_readme/Nomor%202%20H%20core.log.png)
