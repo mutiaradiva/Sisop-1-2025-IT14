@@ -35,7 +35,8 @@ awk '{ jumlah +=1; if ($0 ~ /Chris Hemsworth/) { ++n } } END { if (n > 0) print 
 ### Cara Pengerjaan 
 
 ```awk
-{ jumlah += 1; if ($0 ~ /Chris Hemsworth/) { ++n } }```
+{ jumlah += 1; if ($0 ~ /Chris Hemsworth/) { ++n } }
+```
 - jumlah += 1: Menambahkan nilai 1 pada variabel jumlah untuk setiap baris yang diproses.
 
 - if ($0 ~ /Chris Hemsworth/) { ++n }: Memeriksa apakah baris tersebut mengandung kata Chris Hemsworth menggunakan pencocokan dengan ekspresi reguler (regex). Jika kondisinya terpenuhi, variabel n akan bertambah satu.
